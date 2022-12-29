@@ -12,17 +12,11 @@ reg_port='5000'
 kind delete cluster --name "${KIND_CLUSTER_NAME}"
 
 
-kind create cluster --name "${KIND_CLUSTER_NAME}" --config kind-config.yaml 
+kind create cluster --name "${KIND_CLUSTER_NAME}" --config config/kind-config.yaml 
 
-
-# helm repo add cilium https://helm.cilium.io
+# helm repo add cilium https://helm.cilium.io/
 # helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
 # helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
-# helm repo add open-telemetry https://open-telemetry.github.io/opentelemetry-helm-charts
-# helm repo add minio https://operator.min.io
-# helm repo add grafana https://grafana.github.io/helm-charts
-# helm repo add strimzi https://strimzi.io/charts
-# helm repo add elastic https://helm.elastic.co
 
 
 # connect the registry to the cluster network
@@ -44,11 +38,6 @@ data:
     help: "https://kind.sigs.k8s.io/docs/user/local-registry/"
 EOF
 
-
-
-helm template kube-prometheus prometheus-community/kube-prometheus-stack --include-crds \
-  | yq 'select(.kind == "CustomResourceDefinition") * {"metadata": {"annotations": {"meta.helm.sh/release-name": "kube-prometheus", "meta.helm.sh/release-namespace": "monitoring"}}}' \
-  | kubectl create -f -
 
 
 kubectl create ns monitoring
@@ -94,11 +83,11 @@ helm upgrade ingress-nginx ingress-nginx/ingress-nginx \
   --values config/ingress-nginx-values.yaml
 
 
-kubectl -n ingress-nginx apply -f  config/ingress-nginx-values.yaml
-
 # Prometheus & Grafana install
 kubectl apply -f https://raw.githubusercontent.com/cilium/cilium/v1.12/examples/kubernetes/addons/prometheus/monitoring-example.yaml
 
+
+# Metallb install
 
 kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v$METALLB_V/config/manifests/metallb-native.yaml
 
@@ -111,8 +100,12 @@ kubectl -n metallb-system wait -l "app=metallb" --for=condition=ready pod --time
 kubectl apply  -f config/metallb-system.yaml
 
 
-helm upgrade cilium cilium/cilium --version "$CILIUM_V" \
-   --namespace kube-system \
-   --reuse-values \
-   --set hubble.relay.enabled=true \
-   --set hubble.ui.enabled=true
+
+
+
+# # 
+# helm upgrade cilium cilium/cilium --version "$CILIUM_V" \
+#    --namespace kube-system \
+#    --reuse-values \
+#    --set hubble.relay.enabled=true \
+#    --set hubble.ui.enabled=true
