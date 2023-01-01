@@ -36,12 +36,12 @@ By default, the script will install the latest versions of Cilium, the NGINX ing
 
 Create a MetalLB load balancer service in your cluster, specifying the IP addresses that you want MetalLB to use for load balancing.
 
-    It is important to ensure that the IP address range of the MetalLB pool matches the Docker subnet range of the Kind cluster. If the ranges do not match, it is possible that the MetalLB load balancer will not be able to reach the pods in the cluster, resulting in connectivity issues.
+>    It is important to ensure that the IP address range of the MetalLB pool matches the Docker subnet range of the Kind cluster. If the ranges do not match, it is possible that the MetalLB load balancer will not be able to reach the pods in the cluster, resulting in connectivity issues.
 
 To check the Docker subnet range of the Kind cluster, you can run the following command:
 
 ```sh
-$ docker network inspect kind
+docker network inspect kind
 ```
 
 
@@ -51,8 +51,9 @@ Once the Prometheus and Grafana addons have been deployed, you can access the Gr
 
 To port forward the Grafana service, run the following command:
 
-
-    $ kubectl -n cilium-monitoring port-forward svc/grafana 3000:3000
+```sh
+kubectl -n cilium-monitoring port-forward svc/grafana 3000:3000
+```
 
 This will forward the Grafana service on port 3000 in the cilium-monitoring namespace to port 3000 on your local machine.
 
@@ -66,17 +67,15 @@ Troubleshooting
 
 If you encounter any issues while using the project:
 
-    Make sure that cgroup v2 is enabled on the host operating system.
+>   Make sure that cgroup v2 is enabled on the host operating system.
     Check the logs for the Cilium and MetalLB controllers for any error messages.
     If you are unable to access the Grafana dashboard, check the logs for the Prometheus and Grafana services to see if there are any issues.
 
 
 The Hubble UI installation via the cilium helm chart appears to fail in the first attempt, with a message error.
 
-    ```
-    Unable to execute "kubectl port-forward -n kube-system svc/hubble-ui --address 0.0.0.0 --address :: 12000:80":
+>    Unable to execute "kubectl port-forward -n kube-system svc/hubble-ui --address 0.0.0.0 --address :: 12000:80":
      Error from server (NotFound): services "hubble-ui" not found
-    ```
 
 you need to reinstall/upgrade the helm chart to enable Hubble UI by calling the helm upgrade function and using reuse-values flag
 
@@ -92,7 +91,7 @@ Contribution guidelines
 
 We welcome contributions to the project! If you would like to contribute, please follow these guidelines:
 
-    Follow the project's code style and formatting standards.
+>    Follow the project's code style and formatting standards.
     Write tests for any new features or bug fixes.
     Open a pull request with a clear description of your changes.
 
