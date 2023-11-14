@@ -14,9 +14,9 @@ kind delete cluster --name "${KIND_CLUSTER_NAME}"
 
 kind create cluster --name "${KIND_CLUSTER_NAME}" --config config/kind-config.yaml 
 
-# helm repo add cilium https://helm.cilium.io/
-# helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
-# helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+helm repo add cilium https://helm.cilium.io/
+helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
 
 
 # connect the registry to the cluster network
