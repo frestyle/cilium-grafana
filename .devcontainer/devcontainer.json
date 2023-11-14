@@ -6,15 +6,12 @@
 	"image": "mcr.microsoft.com/devcontainers/base:bullseye",
 
 	"features": {
-		"ghcr.io/devcontainers/features/docker-from-docker:1": {
-			"version": "latest",
-			"enableNonRootDocker": "true",
-			"moby": "true"
-		},
 		"ghcr.io/mpriscella/features/kind:1": {},
 		"ghcr.io/devcontainers-contrib/features/terraform-asdf:1": {},
 		"ghcr.io/dhoeric/features/act:1": {},
-		"ghcr.io/rjfmachado/devcontainer-features/cloud-native:1": {}
+		"ghcr.io/rjfmachado/devcontainer-features/cloud-native:1": {},
+		"ghcr.io/devcontainers/features/docker-in-docker:2": {},
+		"ghcr.io/devcontainers-contrib/features/terraform-asdf:2": {}
 	},
 
 	// Use this environment variable if you need to bind mount your local source code into a new container.
